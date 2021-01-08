@@ -1,0 +1,7 @@
+pic_suffix = (".PDF", ".pdf", ".JPG", ".JPEG", ".PNG", ".GIF", ".jpg", ".jpeg", ".png", ".gif")
+zip_suffix = (".zip", ".ZIP", ".rar", ".RAR")
+pdf_suffix = (".PDF", ".pdf")
+ppt_suffix = (".ppt", ".PPT", ".pptx", ".PPTX", ".pps", ".PPS")
+excel_suffix = (".xlsx", ".XLSX", ".xls" ".XLS")
+word_suffix = (".docx", ".DOCX")
+no_page_suffix = (".JPG", ".JPEG", ".PNG", ".GIF", ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".BMP", ".txt", ".TXT")
