@@ -32,7 +32,7 @@ def ocr_waybill():
     ocr_url = config["OCR_URL"]
     result_dict = {"letter": {}, "bill": {}}
     letter_re = r"订单.*?号.*?(\d*)\)"
-    bill_re = r"订单号(\d*)"
+    bill_re = r"销售凭证:(\d*)"
     pic_path_list = []
     for pic_dir, _, pic_name_list in walk_list:
         for pic_name in pic_name_list:
