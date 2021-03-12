@@ -259,7 +259,7 @@ def page_count():
     config = current_app.config
     base_dir = config["PAGE_COUNT_DIR"]
     file_dir, extract_dir, walk_list = extract_zip(base_dir, file_name, file)
-    page_count_dict = {}
+    page_count_dict = {"success": {}, "error": {}, "ignore": {}, "default": {}}
     for pic_dir, _, pic_name_list in walk_list:
         for pic_name in pic_name_list:
             pic_path = os.path.join(pic_dir, pic_name)
@@ -267,27 +267,27 @@ def page_count():
                 if pic_name.endswith(pdf_suffix):
                     pdf_file = PdfFileReader(pic_path, strict=False)
                     page_count = pdf_file.getNumPages()
-                    page_count_dict[pic_name] = page_count
+                    page_count_dict["success"][pic_name] = page_count
                 elif pic_name.endswith(excel_suffix):
                     new_pic_path = to_xlsx(pic_path)
                     workbook = openpyxl.load_workbook(new_pic_path)
                     page_count = len(workbook.sheetnames)
                     workbook.close()
-                    page_count_dict[pic_name] = page_count
+                    page_count_dict["success"][pic_name] = page_count
                 elif pic_name.endswith(word_suffix):
                     document = docx.Document(pic_path)
                     page_count = len(document.sections)
-                    page_count_dict[pic_name] = page_count
+                    page_count_dict["success"][pic_name] = page_count
                 elif pic_name.endswith(ppt_suffix):
                     ppt = Presentation(pic_path)
                     page_count = len(ppt.slides)
-                    page_count_dict[pic_name] = page_count
+                    page_count_dict["success"][pic_name] = page_count
                 elif pic_name.endswith(no_page_suffix):
-                    page_count_dict[pic_name] = 1
+                    page_count_dict["default"][pic_name] = 1
                 else:
-                    page_count_dict[pic_name] = None
+                    page_count_dict["ignore"][pic_name] = None
             except:
-                page_count_dict[pic_name] = None
+                page_count_dict["error"][pic_name] = None
                 print(f"{pic_name} read error")
     shutil.rmtree(file_dir)
     return success(page_count_dict)
