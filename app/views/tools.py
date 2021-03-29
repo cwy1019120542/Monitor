@@ -113,6 +113,7 @@ def excel_join_word():
         clean_data_group_list = []
         data_len = 0
         data_group_list_len = len(data_group_list)
+        start_suffix_index = None
         prefix_data_list = []
         suffix_data_list = []
         for data_group_index, data_group in enumerate(data_group_list):
@@ -124,19 +125,18 @@ def excel_join_word():
                 else:
                     prefix_data_list.extend(clean_data_group)
             else:
+                clean_data_group_list_len = len(clean_data_group_list)
+                clean_data_group_list.append(data_group[:data_len])
                 if len(clean_data_group) <= 1:
-                    next_data_group_index = data_group_index + 1
-                    if next_data_group_index <= data_group_list_len - 1:
-                        next_data_group = data_group_list[next_data_group_index]
-                        clean_next_data_group = [i for i in next_data_group if i and "Unnamed:" not in str(i)]
-                        if len(clean_next_data_group) <=1:
-                            suffix_data_list.extend(clean_data_group)
-                        else:
-                            clean_data_group_list.append(data_group[:data_len])
-                    else:
-                        suffix_data_list.extend(clean_data_group)
+                    if start_suffix_index == None:
+                        start_suffix_index = clean_data_group_list_len
                 else:
-                    clean_data_group_list.append(data_group[:data_len])
+                    start_suffix_index = None
+        if start_suffix_index != None:
+            suffix_data_group_list = clean_data_group_list[start_suffix_index:]
+            clean_data_group_list = clean_data_group_list[:start_suffix_index]
+            for suffix_data_group in suffix_data_group_list:
+                suffix_data_list.extend([i for i in suffix_data_group if i])
         row = len(clean_data_group_list)
         column = data_len
         len_list = [0] * column
